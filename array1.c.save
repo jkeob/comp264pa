@@ -1,0 +1,15 @@
+#include <stdio.h>
+
+int main(void){
+
+	int values[5];
+	int index;
+	
+	values[0] = 0;
+	values[1] = 1;
+
+	for(index = 2; index <5; index++){
+
+	
+	}
+

@@ -1,0 +1,123 @@
+#include <stdio.h>
+#include <math.h>
+
+
+float mean(float arr[], int size){ 
+
+	 float mean = 0;
+	 float total = 0.0;
+	 for(int i = 0; i<size; i++){
+		
+		total+=arr[i]; 
+
+	}
+	
+	mean = total/size; 
+	return mean;
+
+}
+
+
+float median(float arr[], int size){
+
+
+
+	int median_positionNumerator = size+1;
+	int median_position = median_positionNumerator/2;
+	
+
+	return arr[median_position];
+
+
+}
+
+
+float mode(float arr[], int size){
+
+	int likeValueCounter = 0;
+	float modeValueNumber = 0.0;
+
+	for(int i =0; i<size; i++){
+		int count = 0;
+
+		for(int j = 0; j<size; j++){
+
+                      if (arr[i] == arr[j]){
+			
+			count++;
+		}
+	}
+
+
+	if (count>likeValueCounter){
+		likeValueCounter = count;
+		modeValueNumber = arr[i];
+
+	}
+
+
+	}
+
+	return modeValueNumber;
+}
+
+
+float std_dev(float arr[], int size){
+		
+		
+ 
+
+	 float mean = 0;
+	 float total = 0.0;
+	 for(int i = 0; i<size; i++){
+		
+		total+=arr[i]; 
+
+	}
+	
+	mean = total/size; 
+
+	int numerator = size-1;
+	float tempVarible = 0.0;
+	float totalToBeUsed =0.0;	
+	for (int i = 0; i<size; i++){
+		
+		tempVarible = arr[i]-mean;
+		totalToBeUsed += pow(tempVarible,2);				
+	
+
+	}
+
+
+	return totalToBeUsed/numerator;
+}
+
+float arr[] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 6.0, 7.0, 8.0, 9.0};
+int size = 9;
+
+int  rounded_vals(float arr[] ,int size,int returnableArr[]){
+
+	for(int i = 0; i<size; i++){
+	
+		returnableArr[i] = round(arr[i]);
+
+	}
+	
+
+	return returnableArr;
+}
+
+
+
+
+void main(){
+
+	int returnableArr[size];
+
+	printf("Mean: %f\n",mean(arr, size));
+	printf(" , Median: %f\n", median(arr,size));
+	printf(" , Mode: %f\n", mode(arr,size));
+	printf(" , Std_Dev%f\n", std_dev(arr,size));
+	printf(" , Rounded Vals %i\n" , rounded_vals(arr,size,returnableArr));
+
+}

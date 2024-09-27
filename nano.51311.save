@@ -1,0 +1,22 @@
+#define PIE 3.14159
+#define Square(x) ((x)* (x))
+int main(void)
+{
+
+int q = PIE;
+int y = Square(q);
+return 0 
+
+
+}
+
+
+
+
+
+
+
+
+
+
+

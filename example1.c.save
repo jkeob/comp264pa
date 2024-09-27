@@ -1,0 +1,10 @@
+#include <stdio.h>
+
+int main(void) {
+
+
+	int val = 264;	
+	printf("Lets do something besides Hello World COMP %i student",val);
+	return  0;
+
+}

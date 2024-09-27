@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <stlib.h>
+
+
+int arrEquals(int * arr1, int * arr2){
+
+	int sizearr1 = sizeof(arr1/sizeof(int));
+	int sizearr2 = sizeof(arr2/sizeof(int));
+		
+
+	if sizearr1 != sizearr2){
+
+		return 0;
+	}
+	int index;
+	for(index = 0; index <sizearr1; ++index){
+		if (*arr1 != *arr2){
+
+			return 0;
+		}
+		arr1++;
+		arr2++;
+
+		
+	} 
+
+return 1;
+}
+
+
+int main(void){
+
+int arr1[7] = {1,2,3,4,5,6,7};
+int arr2[7] = {1,2,3,4,5,6,6};
+printf("Are
+
+
+
+
+}

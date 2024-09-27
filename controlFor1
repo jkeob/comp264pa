@@ -1,0 +1,15 @@
+#include    <stdio.h>
+
+int main(void){
+
+
+	int index = 0;
+
+	for (index = 1; index< 100; i++){
+
+		printf("%i /n ", index);
+	}
+	
+	return 0 ;
+
+}
