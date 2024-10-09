@@ -9,7 +9,7 @@
 #include <math.h>
 #include <stdlib.h>
 
-
+//used to call functions in testing 
 double linear_func(int a, int b, double x);
 double quadratic_func(int a, int b, double x);
 double exp_func(int a , int b, double x);
@@ -83,7 +83,7 @@ return y;
 double func_comp(double(*fcnA)(int,int,double), double (*fcnB)(int,int,double), int a, int b, double x){
 
 	double resultOfB = fcnB(a,b,x);
-	double resultFromB = fcnA(a,b,resultOfB);
+	double resul`tFromB = fcnA(a,b,resultOfB);
 
 
 	return resultFromB;
@@ -122,23 +122,23 @@ double func_derivative(double(*fcnA)(int,int,double),int a, int b, double x, int
 
 	case 1:
 
-	double returnable = fcnA(a,b,x);
-	return returnable;
+	double returnableFcnA = fcnA(a,b,x);
+	return returnableFcnA;
 	break;
 	case 2:
 
-	double returnable2 = fcnA(a,b,x+h);
-	returnable2 -= fcnA(a,b,x);
-	returnable2 = returnable2/h;
-	return returnable2;
+	double returnableFcnA_Deriv = fcnA(a,b,x+h);
+	returnableFcnA_Deriv -= fcnA(a,b,x);
+	returnableFcnA_Deriv = returnableFcnA_Deriv/h;
+	return returnableFcnA_Deriv;
 	break;
 	case 3:
 
-	double returnable3 = fcnA(a,b,x+h);
-	returnable3 -= 2*fcnA(a,b,x);
-	returnable3 += fcnA(a,b,x-h);
-	returnable3 = returnable3/ pow(h,2);
-	return returnable3;
+	double returnableFcnA_Deriv2 = fcnA(a,b,x+h);
+	returnableFcnA_Deriv2 -= 2*fcnA(a,b,x);
+	returnableFcnA_Deriv2 += fcnA(a,b,x-h);
+	returnableFcnA_Deriv2 = returnableFcnA_Deriv2/ pow(h,2);
+	return returnableFcnA_Deriv2;
 	break;
 	default:
 
