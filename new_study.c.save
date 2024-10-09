@@ -1,0 +1,56 @@
+
+#include <stdio.h>
+#include <math.h>
+
+
+int * generateSquares(int n){
+
+	static int arr[5];
+	int size = 5;
+
+	for(int i = 0; i<n; i++){
+
+		arr[i] = i*i;
+
+
+
+	}
+
+
+	return arr;
+}
+
+
+
+int * reverseArray(int*arr, int size){
+
+	static int arrReturn[size];
+
+
+	for(int i = 0; i<size; i++){
+		arrReturn[i] = arr[size-i];
+
+
+	} o
+
+	return arrReturn;
+
+}
+
+
+
+int main(){
+
+generateSquares(5);
+
+int arr[] = {1,2,3,4,5};
+
+int *reversedArr = reverseArray(arr,5);
+
+}
+
+
+
+
+
+

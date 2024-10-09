@@ -1,188 +1,49 @@
-#include <stdio.h>
-#include <math.h>
-
-
-float mean(float arr[], int size){ 
-
-	 float mean = 0;
-	 float total = 0.0;
-	 for(int i = 0; i<size; i++){
-		
-		total+=arr[i]; 
-
-	}
-	
-	mean = total/size; 
-	return mean;
-
-}
-
-
-float median(float arr[], int size){
-
-
-
-	int median_positionNumerator = size+1;
-	int median_position = median_positionNumerator/2;
-	
-
-	return arr[median_position];
-
-
-}
-
-
-float mode(float arr[], int size){
-
-	int likeValueCounter = 0;
-	float modeValueNumber = 0.0;
-
-	for(int i =0; i<size; i++){
-		int count = 0;
-
-		for(int j = 0; j<size; j++){
-
-                      if (arr[i] == arr[j]){
-			
-			count++;
-		}
-	}
-
-
-	if (count>likeValueCounter){
-		likeValueCounter = count;
-		modeValueNumber = arr[i];
-
-	}
-
-
-	}
-
-	return modeValueNumber;
-}
-
-
-float std_dev(float arr[], int size){
-		
-		
- 
-
-	 float mean = 0;
-	 float total = 0.0;
-	 for(int i = 0; i<size; i++){
-		
-		total+=arr[i]; 
-
-	}
-	
-	mean = total/size; 
-
-	int numerator = size-1;
-	float tempVarible = 0.0;
-	float totalToBeUsed =0.0;	
-	for (int i = 0; i<size; i++){
-		
-		tempVarible = arr[i]-mean;
-		totalToBeUsed += pow(tempVarible,2);				
-	
-
-	}
-
-
-	return totalToBeUsed/numerator;
-}
-
-void rounded_vals(float arr[] ,int size,int returnableArr[]){
-
-	for(int i = 0; i<size; i++){
-	
-		returnableArr[i] = (int)round(arr[i]);
-
-	}
-	
-}
-
-
-void ascii(float arr[], int size, int arrReturnable[]){
-
-	int tempInt = 0;
-	for(int i =0; i<size; i++){
-	
-		tempInt = (int) arr[i];
-		arrReturnable[i] = tempInt;
-
-
-	
-	}
-
-}
-
-
-
-int main(int argc, char *argv[]){
-	if(argc<2){
-		printf("Usage: %s\n", argv[0]);
-		return 1;
-
-	}
-	int size = argc - 1;
-	float arr[size];
-
-	for(int i = 0; i < size; i++){
-
-		const char *stringArgumentTake = argv[i+1];
-		float resultStoredReturn = 0.0;
-		float fct = 1.0;
-		
-		while(*stringArgumentTake != '\0'){
-
-			if(*stringArgumentTake == '.'){
-
-			fct = 0.1;
-			stringArgumentTake++;
-			continue;
-			}
-	
-			if(fct == 1.0){
-
-			resultStoredReturn = resultStoredReturn * 10.0f + (*stringArgumentTake - '0');
-
-			}else{
-			resultStoredReturn += (*stringArgumentTake - '0') * fct;
-			fct *= 0.1;
-
-
-			}
-
-
-			stringArgumentTake++;
-		}
-
-			arr[i] = resultStoredReturn;
-	}
-
-	int returnableArr[size];
-	printf("Mean: %f\n",mean(arr, size));
-	printf(" , Median: %f\n", median(arr,size));
-	printf(" , Mode: %f\n", mode(arr,size));
-	printf(" , Std_Dev%f\n", std_dev(arr,size));
-
-		rounded_vals(arr,size,returnableArr);
-
-	printf("Rounded Values: ");
-	for(int i = 0; i<size; i++){
-		printf("%d " , returnableArr[i]);
-
-
-	}
-	printf("\n");
-	ascii(arr,size,arrReturnable);
-	printf("Ascii values");
-		for(int j = 0; j<size; j++){
-		printf("%i " , arrReturnable[j]);
-
-
-	}
-	
-	return 0;
-}
+-----BEGIN OPENSSH PRIVATE KEY-----
+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
+-----END OPENSSH PRIVATE KEY-----

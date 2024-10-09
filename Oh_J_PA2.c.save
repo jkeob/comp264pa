@@ -1,0 +1,131 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+
+
+double linear_func(int a, int b, double x);
+double quadratic_func(int a, int b, double x);
+double exp_func(int a , int b, double x);
+double sin_func(int a , int b, double x);
+double func_comp(double(*fcnA)(int,int,double), double (*fcnB)(int,int,double), int a, int b, double x);
+double fcnA(int a, int b, double x);
+double fcnB(int a, int b, double x);
+
+
+
+int main(int argc, char *argv[]){
+
+	int size = argc - 1;
+	float *arr = (float*)malloc(size*sizeof(float));
+
+	for(int i = 0; i<size; i++){
+
+		arr[i] = atof(argv[i+1]);
+
+	}
+
+
+
+	for(int j = 0; j<size; j++){
+
+		printf("Values: %f\n", arr[j]);
+
+	}
+
+	double result = linear_func((int)arr[0], (int)arr[1], arr[2]);
+	printf("Linear Func result: %lf\n", result);
+
+	double result2 = quadratic_func((int)arr[0], (int)arr[1], arr[2]);
+	printf("Quadratic Func result: %lf\n", result2);
+
+
+	double result3 = exp_func((int)arr[0], (int)arr[1], arr[2]);
+	printf("Exp Func result: %lf\n", result3);
+
+	double result4 = sin_func((int)arr[0], (int)arr[1], arr[2]);
+	printf("Sin Func result: %lf\n", result4);
+
+
+	double result5 = func_comp(fcnA,  fcnB, arr[0],arr[1],arr[2]);
+	printf("Function COmp %lf\n", result5);
+
+
+	free(arr);
+	return 0;
+
+}
+
+double linear_func(int a, int b, double x){
+
+	double y = (double)a * x;
+	y += (double) b;
+
+
+
+
+return y;
+}
+
+
+double quadratic_func(int a, int b, double x){
+
+	double y = pow(x,2);
+	y += (double)a*x;
+	y+=b;
+
+
+
+
+return y;
+}
+
+
+double exp_func(int a , int b, double x){
+	
+	double y = exp((double)a*x);
+
+
+return y;
+}
+
+
+double sin_func(int a , int b, double x){
+
+	double y = (double)a * sin((double)b * x);
+
+return y;
+}
+
+
+
+double func_comp(double(*fcnA)(int,int,double), double (*fcnB)(int,int,double), int a, int b, double x){
+
+	double resultOfB = fcnB(a,b,x);
+	double resultFromB = fcnA(a,b,resultOfB);
+
+
+	return resultFromB;
+
+}
+
+
+
+double fcnA(int a, int b, double x){
+
+	double y = (double) a * x;
+	y+=b;
+
+return y;
+
+}
+
+
+double fcnB(int a, int b, double x){
+
+	double y = (double) a * x;
+	y+=b;
+
+return y;
+
+}
+
