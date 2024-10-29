@@ -1,246 +1,187 @@
-//I Jacob Oh here certify that this programming assignment reflects my own work
-//without the use of any external individuals(other than course/department staff), 
-//,generative-AI, or any other forbidden resources. I understand/accept the 
-//consequences of cheating as outlined in the course syllabus.
-
+// I Jacob Oh certify that this programming assignment reflects my own work,
+// without the use of any external individuals (other than course/department staff),
+// generative-AI, or any other forbidden resources. I understand/accept the consequences
+// of cheating as outlined in the course syllabus.
 
 
 #include <stdio.h>
-#include <math.h>
 #include <stdlib.h>
-
-//used to call functions in testing 
-double linear_func(int a, int b, double x);
-double quadratic_func(int a, int b, double x);
-double exp_func(int a , int b, double x);
-double sin_func(int a , int b, double x);
-double func_comp(double(*fcnA)(int,int,double), double (*fcnB)(int,int,double), int a, int b, double x);
-double fcnA(int a, int b, double x);
-double fcnB(int a, int b, double x);
-double func_derivative(double(*fcnA)(int,int,double),int a, int b, double x, int order, double h);
-double * func_equality(double(*fcnA) (int,int,double), double (*fcnB)(int,int,double), double *values, int size, double tol);
-
-int main(int argc, char *argv[]){
-
-	int size = argc - 1;
-	double *arr = (double*)malloc(size*sizeof(double));
-
-	for(int i = 0; i<size; i++){
-
-		arr[i] = atof(argv[i+1]);
-
-	}
+#include <math.h>
 
 
+// global variable for the step size
+double h;
 
-	return 0;
-
+// linear function implementation
+double * linear_func(int a, int b, const double * values, int size){
+    // allocate memory for the result of the linear function
+    double * linear_func_result = (double*)malloc(size * sizeof(double));
+    if (linear_func_result == NULL) {
+        return NULL;
+    }
+    // loop through all the values to calculate linear function
+    for (int i = 0; i < size; i++) {
+        linear_func_result[i] = a * values[i] + b;
+    }
+    // return the calculated results
+    return linear_func_result;
 }
 
-double linear_func(int a, int b, double x){
+// quadratic function implementation
+double * quadratic_func(int a, int b, const double * values, int size) {
+    // allocate memory for the result of the quadratic function
+    double *quad_func_result = (double*)malloc(size * sizeof(double));
+    if (quad_func_result == NULL) {
+        return NULL;
+    }
+    // loop through all the values to calculate quadratic function
+    for (int i = 0; i < size; i++) {
+        quad_func_result[i] = pow(values[i], 2) + a * values[i] + b;
+    }
 
-	double y = (double)a * x;
-	y += (double) b;
-
-
-
-
-return y;
+    // return the calculated results
+    return quad_func_result;
 }
 
+// exponential function implementation
+double * exp_func(int a, int b, const double * values, int size)  {
+        // allocate memory for the result of the exponential function
+        double * exp_func_result = (double*)malloc(size * sizeof(double));
+    if (exp_func_result == NULL) {
+        return NULL;
+    }
 
-double quadratic_func(int a, int b, double x){
-
-	double y = pow(x,2);
-	y += (double)a*x;
-	y+=b;
-
-
-
-
-return y;
-}
-
-
-double exp_func(int a , int b, double x){
-	
-	double y = exp((double)a*x);
-
-
-return y;
-}
-
-
-double sin_func(int a , int b, double x){
-
-	double y = (double)a * sin((double)b * x);
-
-return y;
+        // loop through all the values to calculate exp equation
+        for (int i = 0; i < size; i++) {
+        exp_func_result[i] = exp(a * values[i]);
+        }
+        // return the calculated results
+    return exp_func_result;
 }
 
 
 
-double func_comp(double(*fcnA)(int,int,double), double (*fcnB)(int,int,double), int a, int b, double x){
-
-	double resultOfB = fcnB(a,b,x);
-	double resul`tFromB = fcnA(a,b,resultOfB);
-
-
-	return resultFromB;
-
+// sin function implementation
+double * sin_func(int a, int b, const double * values, int size) {
+    // allocate memory for the result of the sine function
+    double * sin_func_result = (double*)malloc(size * sizeof(double));
+    if (sin_func_result == NULL) {
+        return NULL;
+    }
+        // loop through all the values to calculate the sin equation
+        for (int i = 0; i < size; i++) {
+        sin_func_result[i] = a * sin(b * values[i]);
+    }
+    // return the calculated results
+    return sin_func_result;
 }
 
 
 
-double fcnA(int a, int b, double x){
-
-	double y = (double) a * x;
-	y+=b;
-
-return y;
-
+// first derivative calculation helper method
+double * func_firstDerivative(double *(*fcn)(int, int, const double *, int), int a, int b, const double *values, const double *values_plus, int size) {
+    double * first_derivative_result = (double*)malloc(size * sizeof(double));
+    if (first_derivative_result == NULL) {
+        return NULL;
+    }
+    for (int i = 0; i < size; i++) {
+        double fOfx = fcn(a, b, values, size)[i];
+        double fOfx_plus_h = fcn(a, b, values_plus, size)[i];
+        first_derivative_result[i] = (fOfx_plus_h - fOfx) / (values_plus[i] - values[i]);
+    }
+    return first_derivative_result;
 }
 
-
-double fcnB(int a, int b, double x){
-
-	double y = (double) a * x;
-	y+=b;
-
-return y;
-
-
-
-
+// second derivative calculation helper method
+double * func_secondDerivative(double *(*fcn)(int, int, const double *, int), int a, int b, const double *values, const double *values_plus, const double *values_minus, int size) {
+    double * second_derivative_result = (double*)malloc(size * sizeof(double));
+    if (second_derivative_result == NULL) {
+        return NULL;
+    }
+    for (int i = 0; i < size; i++) {
+        double fx_plus_h = fcn(a, b, values_plus, size)[i];
+        double fx_minus_h = fcn(a, b, values_minus, size)[i];
+        double fx = fcn(a, b, values, size)[i];
+        second_derivative_result[i] = (fx_plus_h - 2 * fx + fx_minus_h) / (h * h);
+    }
+    return second_derivative_result;
 }
 
-
-
-double func_derivative(double(*fcnA)(int,int,double),int a, int b, double x, int order, double h){
-
-	switch (order){
-
-	case 1:
-
-	double returnableFcnA = fcnA(a,b,x);
-	return returnableFcnA;
-	break;
-	case 2:
-
-	double returnableFcnA_Deriv = fcnA(a,b,x+h);
-	returnableFcnA_Deriv -= fcnA(a,b,x);
-	returnableFcnA_Deriv = returnableFcnA_Deriv/h;
-	return returnableFcnA_Deriv;
-	break;
-	case 3:
-
-	double returnableFcnA_Deriv2 = fcnA(a,b,x+h);
-	returnableFcnA_Deriv2 -= 2*fcnA(a,b,x);
-	returnableFcnA_Deriv2 += fcnA(a,b,x-h);
-	returnableFcnA_Deriv2 = returnableFcnA_Deriv2/ pow(h,2);
-	return returnableFcnA_Deriv2;
-	break;
-	default:
-
-	return 3.14159;
-
-	break;
-	}
-
-return 0;
+// function to compare the strings (helper)
+int compareStringsForFunction(char const * left, char const * right) {
+    if (left == right) return 0;
+    if (!left) return -*right;
+    if (!right) return *left;
+    while (*left && *left == *right) left++, right++;
+    return *left - *right;
 }
 
+// main function for calculating derivatives based on the function type
+double * func_derivative(const char *func, const double *values_plus, const double *values, const double *values_minus, int a, int b, int order, double h, int size) {
+    double * (*function_selected)(int, int, const double *, int);
+    double * default_value = (double*)malloc(size * sizeof(double));
 
-double * func_equality(double(*fcnA) (int,int,double), double (*fcnB)(int,int,double), double *values, int size, double tol){
+    if (default_value == NULL) {
+        return NULL;
+    }
+    if (compareStringsForFunction(func, "lin") == 0) {
+        function_selected = linear_func;
+    } else if (compareStringsForFunction(func, "quad") == 0) {
+        function_selected = quadratic_func;
+    } else if (compareStringsForFunction(func, "exp") == 0) {
+        function_selected = exp_func;
+    } else if (compareStringsForFunction(func, "sin") == 0) {
+        function_selected = sin_func;
+    }
 
-
-	double h = 0.001;
-
-	double* valuesResized = realloc(values,size *3* sizeof(double));
-	if (valuesResized == NULL){
-
-	free(values);
-	return NULL;
-
-	}
-
-
-	int a = values[0];
-	int b = values[1];
-	double x = values[2];
-
-	for(int i = 0; i<size; i++){
-
-	double functionA_Eval = fcnA(a,b,x);
-	double functionB_Eval = fcnB(a,b,x);
-
-
-	double functionDerivative_A = fcnA(a,b,x+h);
-	functionDerivative_A -= fcnA(a,b,x);
-	functionDerivative_A = functionDerivative_A/h;
-
-	double functionDerivative_B = fcnB(a,b,x+h);
-	functionDerivative_B -= fcnB(a,b,x);
-	functionDerivative_B = functionDerivative_B/h;
-
-
-	double functionSecondDerivA = fcnA(a,b,x+h);
-	functionSecondDerivA -= 2*fcnA(a,b,x);
-	functionSecondDerivA += fcnA(a,b,x-h);
-	functionSecondDerivA = functionSecondDerivA/ pow(h,2);
-
-	double functionSecondDerivB = fcnB(a,b,x+h);
-	functionSecondDerivB -= 2*fcnB(a,b,x);
-	functionSecondDerivB += fcnB(a,b,x-h);
-	functionSecondDerivB = functionSecondDerivB/ pow(h,2);
-
-
-	if (fabs(functionA_Eval - functionB_Eval) >= tol){
-
-	return NULL;
-
-	}
-
-	if (fabs(functionDerivative_A - functionDerivative_B) >= tol){
-
-		return NULL;
-	}
-
-	if (fabs(functionSecondDerivA - functionSecondDerivB >= tol)){
-		return NULL;
-	}
-
-
-
-	if(fabs(functionA_Eval - functionB_Eval) < tol){
-		valuesResized[i*3] = 1.0;
-
-	}else{
-		valuesResized[i*3] = 0.0;
-
-	}
-
-	if(fabs(functionDerivative_A - functionDerivative_B) < tol){
-		valuesResized[i*3+1] = 1.0;
-
-	}else{
-		valuesResized[i*3+1] = 0.0;
-
-	}
-
-	if(fabs(functionSecondDerivA - functionSecondDerivB) < tol){
-		valuesResized[i*3+2] = 1.0;
-
-	}else{
-		valuesResized[i*3+2] = 0.0;
-
-	}
-
-
-
-
-	return valuesResized;
-
+    switch (order) {
+        case 0:
+            return function_selected(a, b, values, size);
+        case 1:
+            return func_firstDerivative(function_selected, a, b, values, values_plus, size);
+        case 2:
+            return func_secondDerivative(function_selected, a, b, values, values_plus, values_minus, size);
+        default:
+            for (int i = 0; i < size; i++) {
+                default_value[i] = 3.14159;
+            }
+            return default_value;
+    }
 }
 
+// main program entry point
+int main(int argc, char *argv[]) {
+    // check if enough arguments are passed if not return "error" message
+    if (argc < 6) {
+        return 1;
+    }
+
+    // set a, b, and h, and size using specific locations in argv
+    const char *func = argv[1];
+    int a = atoi(argv[2]);
+    int b = atoi(argv[3]);
+    h = atof(argv[argc - 1]);
+    int size = argc - 5;
+
+    // allocate memory for the values and values plus and minus
+    double *values = (double*)malloc(size * sizeof(double));
+    double *values_plus = (double*)malloc(size * sizeof(double));
+    double *values_minus = (double*)malloc(size * sizeof(double));
+
+
+    // calculate the values_plus and values_minus arrays using the h variable
+    for (int i = 0; i < size; i++) {
+        values[i] = atof(argv[i + 5]);
+        values_plus[i] = values[i] + h;
+        values_minus[i] = values[i] - h;
+    }
+
+
+    // free allocated memory
+    free(values);
+    free(values_plus);
+    free(values_minus);
+
+
+    return 0;
 }
